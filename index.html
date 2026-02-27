@@ -1,0 +1,1209 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kimbaswa — Dictionnaire & Grand Dictionnaire Impérial</title>
+  <meta name="description" content="Site de référence du Kimbaswa : dictionnaire Français → Kimbaswa + Grand Dictionnaire Impérial (vol. I+II+III)." />
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --card:#0f1620;
+      --muted:#9fb0c0;
+      --text:#e8eef6;
+      --accent:#7dd3fc;
+      --accent2:#a78bfa;
+      --border:rgba(255,255,255,.08);
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 20% 10%, rgba(125,211,252,.18), transparent 60%),
+                  radial-gradient(1000px 700px at 80% 0%, rgba(167,139,250,.15), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+      line-height:1.45;
+    }
+    a{color:inherit}
+    header{
+      position:sticky; top:0; z-index:10;
+      backdrop-filter: blur(10px);
+      background: rgba(11,15,20,.75);
+      border-bottom:1px solid var(--border);
+    }
+    .wrap{max-width:1120px; margin:0 auto; padding:16px 18px;}
+    .topbar{
+      display:flex; gap:14px; align-items:center; justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    .brand{
+      display:flex; gap:12px; align-items:center;
+      min-width:240px;
+    }
+    .logo{
+      width:40px; height:40px; border-radius:12px;
+      background: linear-gradient(135deg, rgba(125,211,252,.9), rgba(167,139,250,.9));
+      box-shadow: var(--shadow);
+      display:grid; place-items:center;
+      font-weight:800; color:#071018;
+    }
+    .brand h1{font-size:16px; margin:0}
+    .brand p{margin:2px 0 0; color:var(--muted); font-size:12px}
+    nav{
+      display:flex; gap:8px; flex-wrap:wrap; align-items:center; justify-content:flex-end;
+    }
+    .pill{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      padding:8px 10px;
+      border-radius:999px;
+      font-size:13px;
+      cursor:pointer;
+      user-select:none;
+    }
+    .pill[aria-current="page"]{
+      border-color: rgba(125,211,252,.55);
+      background: rgba(125,211,252,.12);
+    }
+
+    main{padding:18px 0 70px}
+    .hero{
+      display:grid; gap:14px;
+      padding:20px;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .hero h2{margin:0; font-size:26px; letter-spacing:.2px}
+    .hero .sub{color:var(--muted); margin:0}
+    .grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:14px;
+      align-items:start;
+    }
+    @media (max-width: 920px){
+      .grid{grid-template-columns: 1fr}
+    }
+
+    .card{
+      background: rgba(15,22,32,.78);
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      padding:16px;
+      box-shadow: var(--shadow);
+    }
+    .card h3{margin:0 0 10px; font-size:16px}
+    .meta{
+      display:flex; gap:10px; flex-wrap:wrap;
+      color:var(--muted); font-size:13px;
+    }
+    .meta span{
+      border:1px solid var(--border);
+      padding:6px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.03);
+    }
+
+    .controls{display:grid; gap:10px}
+    .searchRow{display:flex; gap:10px; flex-wrap:wrap}
+    .input{
+      flex:1;
+      min-width:230px;
+      display:flex; gap:8px; align-items:center;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      border-radius:14px;
+      padding:10px 12px;
+    }
+    .input input{
+      width:100%;
+      background: transparent;
+      border:none;
+      outline:none;
+      color: var(--text);
+      font-size:14px;
+    }
+    .btn{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.05);
+      color: var(--text);
+      padding:10px 12px;
+      border-radius:14px;
+      cursor:pointer;
+      font-size:13px;
+    }
+    .btn:hover{border-color: rgba(125,211,252,.35)}
+    .toggles{
+      display:flex; gap:8px; flex-wrap:wrap;
+    }
+    .toggle{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      padding:8px 10px;
+      border-radius:999px;
+      cursor:pointer;
+      font-size:13px;
+      user-select:none;
+    }
+    .toggle.active{
+      border-color: rgba(167,139,250,.55);
+      background: rgba(167,139,250,.12);
+    }
+    .alpha{
+      display:flex; gap:6px; flex-wrap:wrap;
+      margin-top:6px;
+    }
+    .alpha button{
+      width:34px; height:34px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      cursor:pointer;
+      font-size:13px;
+    }
+    .alpha button:hover{border-color: rgba(125,211,252,.35)}
+    .alpha button.active{border-color: rgba(125,211,252,.55); background: rgba(125,211,252,.12)}
+    .sectionTitle{
+      display:flex; justify-content:space-between; align-items:end; gap:10px; flex-wrap:wrap;
+      margin:18px 2px 10px;
+    }
+    .sectionTitle h3{margin:0; font-size:18px}
+    .sectionTitle p{margin:0; color:var(--muted); font-size:13px}
+    .list{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap:10px;
+    }
+    @media (max-width: 720px){ .list{grid-template-columns:1fr} }
+    .entry{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      border-radius: 14px;
+      padding:10px 12px;
+      display:flex;
+      gap:10px;
+      align-items:baseline;
+      justify-content:space-between;
+    }
+    .entry .left{display:flex; gap:10px; align-items:baseline; min-width:0}
+    .badge{
+      font-size:11px;
+      color: rgba(255,255,255,.85);
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      padding:2px 8px;
+      border-radius:999px;
+      white-space:nowrap;
+    }
+    .fr{font-weight:650; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+    .arrow{color:var(--muted)}
+    .kb{
+      font-weight:750;
+      color: var(--accent);
+      white-space:nowrap;
+    }
+    .note{
+      color:var(--muted);
+      font-size:13px;
+      margin-top:10px;
+    }
+    footer{
+      border-top:1px solid var(--border);
+      color:var(--muted);
+      font-size:12px;
+      padding:18px 0 30px;
+    }
+    .hide{display:none !important;}
+    .small{
+      font-size:12px; color:var(--muted);
+    }
+    .kbd{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      padding:2px 6px;
+      border-radius:8px;
+      font-size:12px;
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo">K</div>
+        <div>
+          <h1>Kimbaswa</h1>
+          <p>Dictionnaire • Civilisation • Philosophie cosmique</p>
+        </div>
+      </div>
+
+      <nav aria-label="Navigation">
+        <button class="pill" data-view="home" aria-current="page">Accueil</button>
+        <button class="pill" data-view="mini">Français → Kimbaswa</button>
+        <button class="pill" data-view="grand">Grand Dictionnaire Impérial</button>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section id="homeView">
+    <div class="hero">
+      <h2>📚 Le site du Kimbaswa</h2>
+      <p class="sub">
+        Une page claire pour consulter le <strong>dictionnaire Français → Kimbaswa</strong> et le
+        <strong>Grand Dictionnaire Impérial</strong> (base lexicale + civilisation + philosophie cosmique).
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Recherche rapide</h3>
+          <div class="controls">
+            <div class="searchRow">
+              <div class="input" role="search">
+                <span aria-hidden="true">🔎</span>
+                <input id="q" type="search" placeholder="Tape un mot (français ou kimbaswa)..." autocomplete="off" />
+              </div>
+              <button class="btn" id="clearBtn" type="button">Effacer</button>
+            </div>
+
+            <div class="toggles" aria-label="Choix des corpus">
+              <button class="toggle active" id="tMini" type="button">Inclure: Français → Kimbaswa</button>
+              <button class="toggle active" id="tGrand" type="button">Inclure: Grand Dictionnaire</button>
+            </div>
+
+            <div class="small">
+              Astuce : <span class="kbd">Entrée</span> pour chercher, <span class="kbd">Échap</span> pour effacer.
+            </div>
+
+            <div class="alpha" aria-label="Filtrer par lettre">
+              <!-- generated by JS -->
+            </div>
+          </div>
+
+          <p class="note">
+            Les résultats s’affichent ci-dessous et se filtrent en temps réel.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>📘 Grand Dictionnaire Impérial du Kimbaswa</h3>
+          <div class="meta">
+            <span>Édition complète</span>
+            <span>Volumes I + II + III</span>
+            <span>Ordre alphabétique</span>
+            <span>Verbes en -a</span>
+          </div>
+          <p class="note" style="margin-top:12px">
+            Structure annoncée :
+            <br />• Ordre alphabétique intégral
+            <br />• Terminaison vocalique respectée
+            <br />• Cohérence bantu / manding
+            <br />• Dimension sociale + métaphysique
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sectionTitle">
+      <h3>Résultats</h3>
+      <p id="countLabel">0 entrée</p>
+    </div>
+
+    <div id="results" class="list" aria-live="polite"></div>
+  </section>
+
+  <section id="miniView" class="hide">
+    <div class="sectionTitle">
+      <h3>📘 Dictionnaire Français → Kimbaswa</h3>
+      <p>Consultation et recherche (mêmes filtres que l’accueil)</p>
+    </div>
+    <div id="miniOnlyResults" class="list"></div>
+  </section>
+
+  <section id="grandView" class="hide">
+    <div class="sectionTitle">
+      <h3>📘 Grand Dictionnaire Impérial du Kimbaswa</h3>
+      <p>Consultation et recherche (mêmes filtres que l’accueil)</p>
+    </div>
+    <div id="grandOnlyResults" class="list"></div>
+  </section>
+
+  <footer>
+    <div class="wrap" style="padding:0">
+      <div>© Kimbaswa — base lexicale fournie par l’utilisateur. Page statique (HTML/CSS/JS), sans dépendance externe.</div>
+    </div>
+  </footer>
+</main>
+
+<script>
+/**
+ * Données (toutes celles que tu as fournies).
+ * On stocke chaque entrée dans un format commun :
+ * { source: "mini"|"grand", fr: "...", kb: "...", gloss: "...optionnel..." }
+ */
+
+const mini = [
+  // A
+  {source:"mini", fr:"abandon", kb:"relima"},
+  {source:"mini", fr:"abri", kb:"koloma"},
+  {source:"mini", fr:"action", kb:"fera"},
+  {source:"mini", fr:"adaptation", kb:"malira"},
+  {source:"mini", fr:"admiration", kb:"gena"},
+  {source:"mini", fr:"adulte", kb:"bakora"},
+  {source:"mini", fr:"aide", kb:"baka"},
+  {source:"mini", fr:"aimer", kb:"lova"},
+  {source:"mini", fr:"amour", kb:"lova"},
+  {source:"mini", fr:"ami", kb:"kira"},
+  {source:"mini", fr:"ancien", kb:"fokera"},
+  {source:"mini", fr:"ange", kb:"yaneya"},
+  {source:"mini", fr:"animal", kb:"savuma"},
+  {source:"mini", fr:"année", kb:"limana"},
+  {source:"mini", fr:"apprendre", kb:"yana"},
+  {source:"mini", fr:"avenir", kb:"doke"},
+  {source:"mini", fr:"autorité", kb:"venama"},
+  // B
+  {source:"mini", fr:"bassin", kb:"doga"},
+  {source:"mini", fr:"bataille", kb:"zagara"},
+  {source:"mini", fr:"beauté", kb:"asoreya"},
+  {source:"mini", fr:"besoin", kb:"sira"},
+  {source:"mini", fr:"boire", kb:"niva"},
+  {source:"mini", fr:"bois", kb:"luma"},
+  {source:"mini", fr:"bouche", kb:"toma"},
+  {source:"mini", fr:"bras", kb:"tera"},
+  {source:"mini", fr:"bruit", kb:"domira"},
+  // C
+  {source:"mini", fr:"calme", kb:"sureya"},
+  {source:"mini", fr:"camp", kb:"lokama"},
+  {source:"mini", fr:"cerveau", kb:"mera"},
+  {source:"mini", fr:"chef", kb:"farama"},
+  {source:"mini", fr:"chemin", kb:"afera"},
+  {source:"mini", fr:"choix", kb:"kera"},
+  {source:"mini", fr:"ciel", kb:"yanara"},
+  {source:"mini", fr:"clé", kb:"daka"},
+  {source:"mini", fr:"colère", kb:"zira"},
+  {source:"mini", fr:"colline", kb:"koro"},
+  {source:"mini", fr:"combat", kb:"zagara"},
+  {source:"mini", fr:"compassion", kb:"amara"},
+  {source:"mini", fr:"comprendre", kb:"sena"},
+  {source:"mini", fr:"conscience", kb:"nerima"},
+  {source:"mini", fr:"conseil", kb:"karama"},
+  {source:"mini", fr:"continuité", kb:"milena"},
+  {source:"mini", fr:"corps", kb:"kaba"},
+  {source:"mini", fr:"courage", kb:"ngoma"},
+  {source:"mini", fr:"courir", kb:"raka"},
+  {source:"mini", fr:"croissance", kb:"mifara"},
+  // D
+  {source:"mini", fr:"danger", kb:"zirana"},
+  {source:"mini", fr:"décision", kb:"dema"},
+  {source:"mini", fr:"défendre", kb:"sega"},
+  {source:"mini", fr:"désir", kb:"sira"},
+  {source:"mini", fr:"destin", kb:"zama"},
+  {source:"mini", fr:"deux", kb:"bina"},
+  {source:"mini", fr:"distance", kb:"tena"},
+  {source:"mini", fr:"division", kb:"ve"},
+  {source:"mini", fr:"doigt", kb:"saka"},
+  {source:"mini", fr:"donner", kb:"fera"},
+  {source:"mini", fr:"dormir", kb:"somira"},
+  {source:"mini", fr:"dos", kb:"ruma"},
+  {source:"mini", fr:"droit (justice)", kb:"fira"},
+  // E
+  {source:"mini", fr:"eau", kb:"nala"},
+  {source:"mini", fr:"écouter", kb:"harena"},
+  {source:"mini", fr:"écrire", kb:"bokama"},
+  {source:"mini", fr:"effort", kb:"hava"},
+  {source:"mini", fr:"empire", kb:"malkaya"},
+  {source:"mini", fr:"enfant", kb:"bana"},
+  {source:"mini", fr:"énergie", kb:"fase"},
+  {source:"mini", fr:"énergie vitale", kb:"fureya"},
+  {source:"mini", fr:"équilibre", kb:"vare"},
+  {source:"mini", fr:"espoir", kb:"fina"},
+  {source:"mini", fr:"étoile", kb:"tuma"},
+  {source:"mini", fr:"évolution", kb:"anira"},
+  {source:"mini", fr:"existence", kb:"lera"},
+  // F
+  {source:"mini", fr:"famille", kb:"tana"},
+  {source:"mini", fr:"feu", kb:"fala"},
+  {source:"mini", fr:"fidélité", kb:"kireya"},
+  {source:"mini", fr:"force", kb:"ngoma"},
+  {source:"mini", fr:"forêt", kb:"luma"},
+  {source:"mini", fr:"frère", kb:"bena"},
+  {source:"mini", fr:"frontière", kb:"nokora"},
+  {source:"mini", fr:"futur", kb:"doke"},
+  // G
+  {source:"mini", fr:"gouverner", kb:"denama"},
+  {source:"mini", fr:"guerre", kb:"zagara"},
+  {source:"mini", fr:"guerrier", kb:"kambayo"},
+  // H
+  {source:"mini", fr:"hanche", kb:"laga"},
+  {source:"mini", fr:"harmonie", kb:"zire"},
+  {source:"mini", fr:"héritage", kb:"madira"},
+  {source:"mini", fr:"histoire", kb:"relima"},
+  {source:"mini", fr:"honneur", kb:"yira"},
+  {source:"mini", fr:"horizon", kb:"lani"},
+  // I
+  {source:"mini", fr:"idée", kb:"rina"},
+  {source:"mini", fr:"illumination", kb:"yanira"},
+  {source:"mini", fr:"instant", kb:"lene"},
+  {source:"mini", fr:"intérieur", kb:"mena"},
+  {source:"mini", fr:"intuition", kb:"felira"},
+  // J
+  {source:"mini", fr:"jambe", kb:"pera"},
+  {source:"mini", fr:"justice", kb:"fira"},
+  // L
+  {source:"mini", fr:"lac", kb:"maku"},
+  {source:"mini", fr:"langue", kb:"kombana"},
+  {source:"mini", fr:"légende", kb:"taleya"},
+  {source:"mini", fr:"liberté", kb:"vira"},
+  {source:"mini", fr:"limite", kb:"soka"},
+  {source:"mini", fr:"loi", kb:"kama"},
+  {source:"mini", fr:"lumière", kb:"asé"},
+  // M
+  {source:"mini", fr:"main", kb:"kora"},
+  {source:"mini", fr:"maison", kb:"lokama"},
+  {source:"mini", fr:"marché", kb:"bako"},
+  {source:"mini", fr:"mémoire", kb:"dira"},
+  {source:"mini", fr:"mère", kb:"ama"},
+  {source:"mini", fr:"mesure", kb:"kinara"},
+  {source:"mini", fr:"mission", kb:"rava"},
+  {source:"mini", fr:"mort", kb:"mera"},
+  {source:"mini", fr:"mouvement", kb:"anira"},
+  {source:"mini", fr:"muscle", kb:"zula"},
+  // N
+  {source:"mini", fr:"naissance", kb:"tanira"},
+  {source:"mini", fr:"nation", kb:"basoreya"},
+  {source:"mini", fr:"nez", kb:"nera"},
+  {source:"mini", fr:"neuf", kb:"vina"},
+  {source:"mini", fr:"nourriture", kb:"toba"},
+  // O
+  {source:"mini", fr:"observation", kb:"narena"},
+  {source:"mini", fr:"ombre", kb:"zolima"},
+  {source:"mini", fr:"ordre", kb:"renama"},
+  {source:"mini", fr:"organisation", kb:"kafira"},
+  // P
+  {source:"mini", fr:"paix", kb:"sora"},
+  {source:"mini", fr:"pardon", kb:"dira"},
+  {source:"mini", fr:"parler", kb:"lava"},
+  {source:"mini", fr:"père", kb:"aba"},
+  {source:"mini", fr:"peuple", kb:"baswa"},
+  {source:"mini", fr:"peur", kb:"hina"},
+  {source:"mini", fr:"pied", kb:"kera"},
+  {source:"mini", fr:"plan", kb:"zava"},
+  {source:"mini", fr:"pluie", kb:"vana"},
+  {source:"mini", fr:"pouvoir", kb:"ngera"},
+  {source:"mini", fr:"protection", kb:"koloma"},
+  {source:"mini", fr:"projet", kb:"tava"},
+  // R
+  {source:"mini", fr:"racine", kb:"gula"},
+  {source:"mini", fr:"regarder", kb:"yera"},
+  {source:"mini", fr:"respect", kb:"kena"},
+  {source:"mini", fr:"responsabilité", kb:"daforeya"},
+  {source:"mini", fr:"rire", kb:"rema"},
+  {source:"mini", fr:"rivière", kb:"nalora"},
+  // S
+  {source:"mini", fr:"sagesse", kb:"nure"},
+  {source:"mini", fr:"sang", kb:"nala"},
+  {source:"mini", fr:"savane", kb:"sava"},
+  {source:"mini", fr:"science", kb:"nurema"},
+  {source:"mini", fr:"sept", kb:"lina"},
+  {source:"mini", fr:"silence", kb:"sore"},
+  {source:"mini", fr:"six", kb:"sina"},
+  {source:"mini", fr:"soleil", kb:"zuno"},
+  {source:"mini", fr:"souffle", kb:"hema"},
+  {source:"mini", fr:"stabilité", kb:"halira"},
+  {source:"mini", fr:"stratégie", kb:"farama"},
+  // T
+  {source:"mini", fr:"terre", kb:"dumala"},
+  {source:"mini", fr:"temps", kb:"lima"},
+  {source:"mini", fr:"tension", kb:"zira"},
+  {source:"mini", fr:"tête", kb:"koma"},
+  {source:"mini", fr:"trois", kb:"tina"},
+  {source:"mini", fr:"travail", kb:"pera"},
+  {source:"mini", fr:"tribunal", kb:"bafira"},
+  {source:"mini", fr:"transmission", kb:"galoma"},
+  // U
+  {source:"mini", fr:"un", kb:"ina"},
+  {source:"mini", fr:"unité", kb:"kombé"},
+  {source:"mini", fr:"univers", kb:"voreya"},
+  // V
+  {source:"mini", fr:"valeur", kb:"valora"},
+  {source:"mini", fr:"vérité", kb:"zareya"},
+  {source:"mini", fr:"village", kb:"loka"},
+  {source:"mini", fr:"ville", kb:"veka"},
+  {source:"mini", fr:"vie", kb:"lera"},
+  {source:"mini", fr:"vitalité", kb:"hureya"},
+  {source:"mini", fr:"voir", kb:"yera"},
+  {source:"mini", fr:"voyager", kb:"vira"},
+  // Z
+  {source:"mini", fr:"zone", kb:"lokama"},
+  {source:"mini", fr:"zénith", kb:"yanira"},
+];
+
+const grand = [
+  // A
+  {source:"grand", fr:"Aba", kb:"père"},
+  {source:"grand", fr:"Abena", kb:"héritier"},
+  {source:"grand", fr:"Aboreya", kb:"continuité spirituelle"},
+  {source:"grand", fr:"Aduma", kb:"poussière"},
+  {source:"grand", fr:"Afara", kb:"origine"},
+  {source:"grand", fr:"Afera", kb:"cheminement"},
+  {source:"grand", fr:"Aferena", kb:"logique interne"},
+  {source:"grand", fr:"Afureya", kb:"énergie collective"},
+  {source:"grand", fr:"Agoma", kb:"étincelle"},
+  {source:"grand", fr:"Aheni", kb:"passage secret"},
+  {source:"grand", fr:"Akoma", kb:"centre"},
+  {source:"grand", fr:"Akoreya", kb:"convergence morale"},
+  {source:"grand", fr:"Alena", kb:"distance sacrée"},
+  {source:"grand", fr:"Aloreya", kb:"expansion lumineuse"},
+  {source:"grand", fr:"Aluma", kb:"apparition"},
+  {source:"grand", fr:"Ama", kb:"mère"},
+  {source:"grand", fr:"Amara", kb:"compassion"},
+  {source:"grand", fr:"Amoreya", kb:"compassion universelle"},
+  {source:"grand", fr:"Anira", kb:"mouvement"},
+  {source:"grand", fr:"Anoreya", kb:"évolution permanente"},
+  {source:"grand", fr:"Asé", kb:"lumière"},
+  {source:"grand", fr:"Aséya", kb:"lumière divine"},
+  {source:"grand", fr:"Asoreya", kb:"clarté intérieure"},
+  {source:"grand", fr:"Asema", kb:"clarté"},
+  {source:"grand", fr:"Awa", kb:"négation"},
+  // B
+  {source:"grand", fr:"Bafira", kb:"tribunal"},
+  {source:"grand", fr:"Baforeya", kb:"justice sociale"},
+  {source:"grand", fr:"Baka", kb:"aide"},
+  {source:"grand", fr:"Bako", kb:"marché"},
+  {source:"grand", fr:"Baloma", kb:"union politique"},
+  {source:"grand", fr:"Baloreya", kb:"cohésion politique"},
+  {source:"grand", fr:"Banira", kb:"génération"},
+  {source:"grand", fr:"Banoreya", kb:"génération sacrée"},
+  {source:"grand", fr:"Bana", kb:"enfant (poétique)"},
+  {source:"grand", fr:"Baroreya", kb:"unité territoriale"},
+  {source:"grand", fr:"Baswa", kb:"peuple"},
+  {source:"grand", fr:"Basoreya", kb:"conscience collective"},
+  {source:"grand", fr:"Beloreya", kb:"fidélité nationale"},
+  {source:"grand", fr:"Biforeya", kb:"amplification sociale"},
+  {source:"grand", fr:"Bimira", kb:"vingtaine symbolique"},
+  {source:"grand", fr:"Bina", kb:"deux"},
+  {source:"grand", fr:"Binare", kb:"deuxième"},
+  {source:"grand", fr:"Bokama", kb:"écriture ancienne"},
+  {source:"grand", fr:"Boreya", kb:"équilibre terrestre"},
+  {source:"grand", fr:"Bororeya", kb:"stabilité terrestre"},
+  {source:"grand", fr:"Bureya", kb:"souffle sacré"},
+  // D
+  {source:"grand", fr:"Dafira", kb:"jugement"},
+  {source:"grand", fr:"Daforeya", kb:"responsabilité morale"},
+  {source:"grand", fr:"Daka", kb:"clé"},
+  {source:"grand", fr:"Dakoma", kb:"sommet"},
+  {source:"grand", fr:"Dalima", kb:"sagesse ancienne"},
+  {source:"grand", fr:"Daloreya", kb:"sagesse politique"},
+  {source:"grand", fr:"Danira", kb:"expansion"},
+  {source:"grand", fr:"Danoreya", kb:"transformation sociale"},
+  {source:"grand", fr:"Dareya", kb:"obligation morale"},
+  {source:"grand", fr:"Daroreya", kb:"obligation éthique"},
+  {source:"grand", fr:"Dema", kb:"décision"},
+  {source:"grand", fr:"Deme", kb:"conséquence"},
+  {source:"grand", fr:"Dena", kb:"quatre"},
+  {source:"grand", fr:"Denama", kb:"gouvernance"},
+  {source:"grand", fr:"Deforeya", kb:"discernement"},
+  {source:"grand", fr:"Deloreya", kb:"structure mentale"},
+  {source:"grand", fr:"Dinoreya", kb:"expansion temporelle"},
+  {source:"grand", fr:"Dira", kb:"mémoire / pardon"},
+  {source:"grand", fr:"Doke", kb:"avenir"},
+  {source:"grand", fr:"Dokera", kb:"frontière temporelle"},
+  {source:"grand", fr:"Doga", kb:"bassin"},
+  {source:"grand", fr:"Doloma", kb:"profondeur"},
+  {source:"grand", fr:"Domina", kb:"calcul"},
+  {source:"grand", fr:"Dororeya", kb:"ordre universel"},
+  {source:"grand", fr:"Duloma", kb:"racine sociale"},
+  {source:"grand", fr:"Duma", kb:"impact"},
+  {source:"grand", fr:"Dumala", kb:"terre"},
+  {source:"grand", fr:"Dumeya", kb:"terre sacrée"},
+  // F
+  {source:"grand", fr:"Fafira", kb:"pureté morale"},
+  {source:"grand", fr:"Faforeya", kb:"pureté universelle"},
+  {source:"grand", fr:"Faka", kb:"sac"},
+  {source:"grand", fr:"Fala", kb:"feu"},
+  {source:"grand", fr:"Falira", kb:"flamme intérieure"},
+  {source:"grand", fr:"Faloreya", kb:"lumière intérieure"},
+  {source:"grand", fr:"Fane", kb:"foi"},
+  {source:"grand", fr:"Fanira", kb:"croyance collective"},
+  {source:"grand", fr:"Fanoreya", kb:"foi collective"},
+  {source:"grand", fr:"Fare", kb:"parce que"},
+  {source:"grand", fr:"Farama", kb:"stratégie"},
+  {source:"grand", fr:"Farena", kb:"logique"},
+  {source:"grand", fr:"Fase", kb:"énergie"},
+  {source:"grand", fr:"Faseya", kb:"énergie sacrée"},
+  {source:"grand", fr:"Fefereya", kb:"équilibre éthique"},
+  {source:"grand", fr:"Fekora", kb:"ouverture"},
+  {source:"grand", fr:"Felira", kb:"intuition"},
+  {source:"grand", fr:"Feloreya", kb:"intuition pure"},
+  {source:"grand", fr:"Fena", kb:"front"},
+  {source:"grand", fr:"Ferana", kb:"circulation"},
+  {source:"grand", fr:"Firana", kb:"équité"},
+  {source:"grand", fr:"Fira", kb:"justice"},
+  {source:"grand", fr:"Fimoreya", kb:"énergie fondatrice"},
+  {source:"grand", fr:"Finoreya", kb:"espoir durable"},
+  {source:"grand", fr:"Fokera", kb:"ancienneté"},
+  {source:"grand", fr:"Foforeya", kb:"centre universel"},
+  {source:"grand", fr:"Furema", kb:"énergie humaine"},
+  {source:"grand", fr:"Fureya", kb:"énergie vitale"},
+  {source:"grand", fr:"Furena", kb:"vibration sacrée"},
+  // G
+  {source:"grand", fr:"Gafira", kb:"mouvement social"},
+  {source:"grand", fr:"Gaforeya", kb:"adaptation sociale"},
+  {source:"grand", fr:"Galoma", kb:"transmission"},
+  {source:"grand", fr:"Galoreya", kb:"transmission universelle"},
+  {source:"grand", fr:"Ganira", kb:"migration"},
+  {source:"grand", fr:"Ganoreya", kb:"mouvement historique"},
+  {source:"grand", fr:"Gareya", kb:"cohésion"},
+  {source:"grand", fr:"Gena", kb:"admiration"},
+  {source:"grand", fr:"Geloreya", kb:"stabilité humaine"},
+  {source:"grand", fr:"Ginoreya", kb:"cohésion interne"},
+  {source:"grand", fr:"Gira", kb:"cercle / tourner"},
+  {source:"grand", fr:"Gokera", kb:"autorité morale"},
+  {source:"grand", fr:"Goma", kb:"flamme"},
+  {source:"grand", fr:"Gomoreya", kb:"flamme sacrée"},
+  {source:"grand", fr:"Gorena", kb:"solidité"},
+  {source:"grand", fr:"Guma", kb:"poumon"},
+  {source:"grand", fr:"Gula", kb:"racine"},
+  {source:"grand", fr:"Gureya", kb:"densité"},
+  // H
+  {source:"grand", fr:"Haforeya", kb:"endurance morale"},
+  {source:"grand", fr:"Halira", kb:"stabilité"},
+  {source:"grand", fr:"Haloreya", kb:"stabilité durable"},
+  {source:"grand", fr:"Hama", kb:"dent"},
+  {source:"grand", fr:"Hamora", kb:"renaissance"},
+  {source:"grand", fr:"Hanira", kb:"respiration profonde"},
+  {source:"grand", fr:"Hanoreya", kb:"respiration collective"},
+  {source:"grand", fr:"Hara", kb:"entendre"},
+  {source:"grand", fr:"Harena", kb:"écoute attentive"},
+  {source:"grand", fr:"Hava", kb:"effort"},
+  {source:"grand", fr:"Hema", kb:"souffle"},
+  {source:"grand", fr:"Hina", kb:"peur"},
+  {source:"grand", fr:"Hiloreya", kb:"résistance intérieure"},
+  {source:"grand", fr:"Homoreya", kb:"renaissance humaine"},
+  {source:"grand", fr:"Horeya", kb:"endurance"},
+  {source:"grand", fr:"Hula", kb:"estomac"},
+  {source:"grand", fr:"Hureya", kb:"vitalité"},
+  // I
+  {source:"grand", fr:"Ina", kb:"un"},
+  {source:"grand", fr:"Inare", kb:"premier"},
+  // K
+  {source:"grand", fr:"Kaba", kb:"corps"},
+  {source:"grand", fr:"Kafira", kb:"organisation"},
+  {source:"grand", fr:"Kaforeya", kb:"organisation sacrée"},
+  {source:"grand", fr:"Kalima", kb:"structure"},
+  {source:"grand", fr:"Kaloreya", kb:"structure cosmique"},
+  {source:"grand", fr:"Kama", kb:"loi"},
+  {source:"grand", fr:"Kamira", kb:"pacte spirituel"},
+  {source:"grand", fr:"Kambayo", kb:"guerrier"},
+  {source:"grand", fr:"Kanira", kb:"constellation"},
+  {source:"grand", fr:"Kanoreya", kb:"constellation morale"},
+  {source:"grand", fr:"Kani", kb:"étoile"},
+  {source:"grand", fr:"Karama", kb:"conseil"},
+  {source:"grand", fr:"Karena", kb:"délibération"},
+  {source:"grand", fr:"Kare", kb:"mais"},
+  {source:"grand", fr:"Kareya", kb:"divergence"},
+  {source:"grand", fr:"Kena", kb:"respect"},
+  {source:"grand", fr:"Kenira", kb:"respect mutuel"},
+  {source:"grand", fr:"Kelima", kb:"observation"},
+  {source:"grand", fr:"Keloreya", kb:"observation stratégique"},
+  {source:"grand", fr:"Kera", kb:"pied / choix"},
+  {source:"grand", fr:"Kerana", kb:"stabiliser"},
+  {source:"grand", fr:"Kerima", kb:"équilibre social"},
+  {source:"grand", fr:"Kifara", kb:"multiplication symbolique"},
+  {source:"grand", fr:"Kiforeya", kb:"expansion sacrée"},
+  {source:"grand", fr:"Kiloma", kb:"direction sacrée"},
+  {source:"grand", fr:"Kiloreya", kb:"orientation céleste"},
+  {source:"grand", fr:"Kina", kb:"huit"},
+  {source:"grand", fr:"Kinara", kb:"mesure"},
+  {source:"grand", fr:"Kinoreya", kb:"mesure universelle"},
+  {source:"grand", fr:"Kira", kb:"ami"},
+  {source:"grand", fr:"Kireya", kb:"fidélité"},
+  {source:"grand", fr:"Koma", kb:"tête / mille"},
+  {source:"grand", fr:"Koloma", kb:"protection"},
+  {source:"grand", fr:"Koloreya", kb:"protection universelle"},
+  {source:"grand", fr:"Komeye", kb:"unité sacrée"},
+  {source:"grand", fr:"Kombana", kb:"unir"},
+  {source:"grand", fr:"Kombé", kb:"unité"},
+  {source:"grand", fr:"Kora", kb:"porter"},
+  {source:"grand", fr:"Koro", kb:"colline"},
+  {source:"grand", fr:"Korena", kb:"élévation"},
+  {source:"grand", fr:"Kula", kb:"os"},
+  {source:"grand", fr:"Kuforeya", kb:"stabilité spirituelle"},
+  {source:"grand", fr:"Kureya", kb:"stabilité intérieure"},
+  // L
+  {source:"grand", fr:"Lafira", kb:"progression"},
+  {source:"grand", fr:"Laforeya", kb:"progression morale"},
+  {source:"grand", fr:"Laga", kb:"hanche"},
+  {source:"grand", fr:"Laka", kb:"préparer"},
+  {source:"grand", fr:"Lakoma", kb:"transition"},
+  {source:"grand", fr:"Lamira", kb:"guidance"},
+  {source:"grand", fr:"Lani", kb:"horizon"},
+  {source:"grand", fr:"Lanira", kb:"projection"},
+  {source:"grand", fr:"Lanoreya", kb:"projection cosmique"},
+  {source:"grand", fr:"Larena", kb:"circulation du savoir"},
+  {source:"grand", fr:"Lefira", kb:"transformation"},
+  {source:"grand", fr:"Leforeya", kb:"transformation profonde"},
+  {source:"grand", fr:"Lene", kb:"instant"},
+  {source:"grand", fr:"Lenira", kb:"présence"},
+  {source:"grand", fr:"Lera", kb:"vie"},
+  {source:"grand", fr:"Lima", kb:"temps long"},
+  {source:"grand", fr:"Lina", kb:"sept"},
+  {source:"grand", fr:"Lira", kb:"œil / voir"},
+  {source:"grand", fr:"Liloreya", kb:"réflexion silencieuse"},
+  {source:"grand", fr:"Linoreya", kb:"alignement universel"},
+  {source:"grand", fr:"Loka", kb:"village"},
+  {source:"grand", fr:"Lokera", kb:"implantation"},
+  {source:"grand", fr:"Loga", kb:"colonne"},
+  {source:"grand", fr:"Loma", kb:"épaule"},
+  {source:"grand", fr:"Lomoreya", kb:"fondation sociale"},
+  {source:"grand", fr:"Lorena", kb:"maturité"},
+  {source:"grand", fr:"Lova", kb:"aimer"},
+  {source:"grand", fr:"Luma", kb:"forêt / entrer"},
+  {source:"grand", fr:"Lureya", kb:"expansion intérieure"},
+  {source:"grand", fr:"Luvoreya", kb:"expansion intérieure universelle"},
+  // M
+  {source:"grand", fr:"Madira", kb:"héritage"},
+  {source:"grand", fr:"Maforeya", kb:"héritage sacré"},
+  {source:"grand", fr:"Makora", kb:"territoire ancien"},
+  {source:"grand", fr:"Maku", kb:"lac"},
+  {source:"grand", fr:"Malira", kb:"adaptation"},
+  {source:"grand", fr:"Maloreya", kb:"adaptation collective"},
+  {source:"grand", fr:"Malkaya", kb:"empire"},
+  {source:"grand", fr:"Manira", kb:"génération future"},
+  {source:"grand", fr:"Manoreya", kb:"génération future sacrée"},
+  {source:"grand", fr:"Mareya", kb:"passage du temps"},
+  {source:"grand", fr:"Maseya", kb:"mystère"},
+  {source:"grand", fr:"Mava", kb:"tâche"},
+  {source:"grand", fr:"Melira", kb:"vibration humaine"},
+  {source:"grand", fr:"Mena", kb:"intérieur"},
+  {source:"grand", fr:"Menora", kb:"équilibre mental"},
+  {source:"grand", fr:"Mera", kb:"mort / cerveau"},
+  {source:"grand", fr:"Mifara", kb:"croissance"},
+  {source:"grand", fr:"Milena", kb:"continuité"},
+  {source:"grand", fr:"Miloreya", kb:"continuité temporelle"},
+  {source:"grand", fr:"Mina", kb:"dix"},
+  {source:"grand", fr:"Minoreya", kb:"calcul cosmique"},
+  {source:"grand", fr:"Mira", kb:"alliance"},
+  {source:"grand", fr:"Moki", kb:"grand"},
+  {source:"grand", fr:"Morena", kb:"élévation morale"},
+  {source:"grand", fr:"Moforeya", kb:"centre universel"},
+  {source:"grand", fr:"Mula", kb:"foie"},
+  {source:"grand", fr:"Mureya", kb:"profondeur spirituelle"},
+  {source:"grand", fr:"Muvoreya", kb:"profondeur cosmique"},
+  // N
+  {source:"grand", fr:"Nafira", kb:"appel collectif"},
+  {source:"grand", fr:"Naforeya", kb:"appel sacré"},
+  {source:"grand", fr:"Nakora", kb:"territoire natal"},
+  {source:"grand", fr:"Nala", kb:"eau / sang"},
+  {source:"grand", fr:"Nalira", kb:"source"},
+  {source:"grand", fr:"Naloreya", kb:"source originelle"},
+  {source:"grand", fr:"Namira", kb:"promesse"},
+  {source:"grand", fr:"Nanira", kb:"évolution sociale"},
+  {source:"grand", fr:"Nanoreya", kb:"évolution sociale sacrée"},
+  {source:"grand", fr:"Nareya", kb:"destin collectif"},
+  {source:"grand", fr:"Nari", kb:"personne"},
+  {source:"grand", fr:"Narena", kb:"observation"},
+  {source:"grand", fr:"Nawa", kb:"vous"},
+  {source:"grand", fr:"Nera", kb:"nez"},
+  {source:"grand", fr:"Nerima", kb:"conscience"},
+  {source:"grand", fr:"Ngera", kb:"pouvoir"},
+  {source:"grand", fr:"Nifara", kb:"croissance intérieure"},
+  {source:"grand", fr:"Niloreya", kb:"conscience profonde"},
+  {source:"grand", fr:"Nima", kb:"manger / enfant"},
+  {source:"grand", fr:"Noka", kb:"rival"},
+  {source:"grand", fr:"Nokora", kb:"frontière morale"},
+  {source:"grand", fr:"Noforeya", kb:"stabilité morale"},
+  {source:"grand", fr:"Nure", kb:"sagesse"},
+  {source:"grand", fr:"Nurema", kb:"sagesse vivante"},
+  {source:"grand", fr:"Nureya", kb:"sagesse sacrée"},
+  {source:"grand", fr:"Nuvoreya", kb:"sagesse universelle"},
+  // P
+  {source:"grand", fr:"Paka", kb:"suivre"},
+  {source:"grand", fr:"Palima", kb:"système"},
+  {source:"grand", fr:"Palora", kb:"système ancien"},
+  {source:"grand", fr:"Paloreya", kb:"système universel"},
+  {source:"grand", fr:"Panira", kb:"trajectoire"},
+  {source:"grand", fr:"Panoreya", kb:"trajectoire historique"},
+  {source:"grand", fr:"Pano", kb:"mur"},
+  {source:"grand", fr:"Pareya", kb:"décision collective"},
+  {source:"grand", fr:"Pera", kb:"travail / jambe"},
+  {source:"grand", fr:"Perima", kb:"activité"},
+  {source:"grand", fr:"Peforeya", kb:"décision morale"},
+  {source:"grand", fr:"Petora", kb:"création artisanale"},
+  {source:"grand", fr:"Pilena", kb:"unité familiale"},
+  {source:"grand", fr:"Piloreya", kb:"alliance sacrée"},
+  {source:"grand", fr:"Pina", kb:"réparer"},
+  {source:"grand", fr:"Pinoreya", kb:"réparation collective"},
+  {source:"grand", fr:"Polira", kb:"alliance durable"},
+  {source:"grand", fr:"Poforeya", kb:"tension créatrice"},
+  {source:"grand", fr:"Poreya", kb:"tension sociale"},
+  {source:"grand", fr:"Pula", kb:"pluie forte"},
+  {source:"grand", fr:"Puvoreya", kb:"souffle universel"},
+  // R
+  {source:"grand", fr:"Rafira", kb:"adaptation rapide"},
+  {source:"grand", fr:"Raforeya", kb:"adaptation rapide collective"},
+  {source:"grand", fr:"Raka", kb:"avancer"},
+  {source:"grand", fr:"Rakoma", kb:"convergence"},
+  {source:"grand", fr:"Rala", kb:"peau"},
+  {source:"grand", fr:"Raloreya", kb:"protection sociale"},
+  {source:"grand", fr:"Ramira", kb:"protection morale"},
+  {source:"grand", fr:"Ranira", kb:"développement"},
+  {source:"grand", fr:"Ranoreya", kb:"développement durable"},
+  {source:"grand", fr:"Rareya", kb:"fluidité"},
+  {source:"grand", fr:"Rava", kb:"mission / appeler"},
+  {source:"grand", fr:"Refereya", kb:"transmission spirituelle"},
+  {source:"grand", fr:"Relima", kb:"transmission orale"},
+  {source:"grand", fr:"Rema", kb:"rire / sentir"},
+  {source:"grand", fr:"Renama", kb:"ordre"},
+  {source:"grand", fr:"Renira", kb:"hiérarchie"},
+  {source:"grand", fr:"Rifara", kb:"expansion culturelle"},
+  {source:"grand", fr:"Rina", kb:"pensée"},
+  {source:"grand", fr:"Rinoreya", kb:"pensée universelle"},
+  {source:"grand", fr:"Roke", kb:"passé"},
+  {source:"grand", fr:"Roforeya", kb:"stabilité politique"},
+  {source:"grand", fr:"Rolima", kb:"stabilité politique"},
+  {source:"grand", fr:"Ruma", kb:"dos"},
+  {source:"grand", fr:"Rumi", kb:"large"},
+  {source:"grand", fr:"Rureya", kb:"ancrage"},
+  {source:"grand", fr:"Ruvoreya", kb:"ancrage sacré"},
+  // S
+  {source:"grand", fr:"Safira", kb:"pureté"},
+  {source:"grand", fr:"Saforeya", kb:"pureté universelle"},
+  {source:"grand", fr:"Saka", kb:"doigt"},
+  {source:"grand", fr:"Sakora", kb:"frontière physique"},
+  {source:"grand", fr:"Saloreya", kb:"équilibre naturel"},
+  {source:"grand", fr:"Samira", kb:"perception"},
+  {source:"grand", fr:"Sanira", kb:"prolongement"},
+  {source:"grand", fr:"Sanoreya", kb:"prolongement social"},
+  {source:"grand", fr:"Sarima", kb:"équilibre naturel"},
+  {source:"grand", fr:"Sava", kb:"protéger / savane"},
+  {source:"grand", fr:"Sega", kb:"défendre"},
+  {source:"grand", fr:"Sefereya", kb:"compréhension cosmique"},
+  {source:"grand", fr:"Selira", kb:"compréhension profonde"},
+  {source:"grand", fr:"Sema", kb:"direction / cou"},
+  {source:"grand", fr:"Sena", kb:"comprendre / servir"},
+  {source:"grand", fr:"Serena", kb:"alignement"},
+  {source:"grand", fr:"Sera", kb:"genou / savoir"},
+  {source:"grand", fr:"Sifara", kb:"mouvement intérieur"},
+  {source:"grand", fr:"Siloma", kb:"orientation"},
+  {source:"grand", fr:"Siloreya", kb:"orientation morale"},
+  {source:"grand", fr:"Sina", kb:"six"},
+  {source:"grand", fr:"Sinoreya", kb:"mouvement universel"},
+  {source:"grand", fr:"Sira", kb:"désir"},
+  {source:"grand", fr:"Soforeya", kb:"cohésion sacrée"},
+  {source:"grand", fr:"Soka", kb:"limite"},
+  {source:"grand", fr:"Soma", kb:"cent"},
+  {source:"grand", fr:"Somira", kb:"cohésion sociale"},
+  {source:"grand", fr:"Sora", kb:"paix"},
+  {source:"grand", fr:"Sore", kb:"silence"},
+  {source:"grand", fr:"Sula", kb:"souffle"},
+  {source:"grand", fr:"Sunira", kb:"concentration"},
+  {source:"grand", fr:"Sureya", kb:"sérénité"},
+  {source:"grand", fr:"Suvoreya", kb:"sérénité profonde"},
+  // T
+  {source:"grand", fr:"Tafira", kb:"expansion territoriale"},
+  {source:"grand", fr:"Taforeya", kb:"expansion territoriale sacrée"},
+  {source:"grand", fr:"Takora", kb:"sommet moral"},
+  {source:"grand", fr:"Taka", kb:"orteil"},
+  {source:"grand", fr:"Taleya", kb:"révélation"},
+  {source:"grand", fr:"Taloreya", kb:"révélation collective"},
+  {source:"grand", fr:"Tamira", kb:"transmission"},
+  {source:"grand", fr:"Tanira", kb:"naissance sociale"},
+  {source:"grand", fr:"Tanoreya", kb:"naissance civilisationnelle"},
+  {source:"grand", fr:"Tarena", kb:"logique structurée"},
+  {source:"grand", fr:"Tava", kb:"projet"},
+  {source:"grand", fr:"Tega", kb:"pacte"},
+  {source:"grand", fr:"Tefereya", kb:"réflexion universelle"},
+  {source:"grand", fr:"Telira", kb:"réflexion"},
+  {source:"grand", fr:"Temora", kb:"structure politique"},
+  {source:"grand", fr:"Tenira", kb:"horizon mental"},
+  {source:"grand", fr:"Tena", kb:"distance"},
+  {source:"grand", fr:"Tera", kb:"bras"},
+  {source:"grand", fr:"Tifara", kb:"amplification"},
+  {source:"grand", fr:"Tinoreya", kb:"amplification spirituelle"},
+  {source:"grand", fr:"Tiloma", kb:"fondation"},
+  {source:"grand", fr:"Tina", kb:"trois"},
+  {source:"grand", fr:"Tinare", kb:"troisième"},
+  {source:"grand", fr:"Toba", kb:"nourriture"},
+  {source:"grand", fr:"Toma", kb:"bouche / toucher"},
+  {source:"grand", fr:"Toforeya", kb:"observation cosmique"},
+  {source:"grand", fr:"Torena", kb:"observation sacrée"},
+  {source:"grand", fr:"Tuma", kb:"étoile"},
+  {source:"grand", fr:"Tureya", kb:"endurance collective"},
+  {source:"grand", fr:"Tuvoreya", kb:"endurance universelle"},
+  // V
+  {source:"grand", fr:"Vafira", kb:"organisation humaine"},
+  {source:"grand", fr:"Vaforeya", kb:"organisation universelle"},
+  {source:"grand", fr:"Vaga", kb:"conquérir"},
+  {source:"grand", fr:"Valora", kb:"valeur"},
+  {source:"grand", fr:"Valoreya", kb:"valeur spirituelle"},
+  {source:"grand", fr:"Vana", kb:"pluie"},
+  {source:"grand", fr:"Vanira", kb:"propagation"},
+  {source:"grand", fr:"Vanoreya", kb:"propagation morale"},
+  {source:"grand", fr:"Vare", kb:"équilibre"},
+  {source:"grand", fr:"Varena", kb:"équilibre dynamique"},
+  {source:"grand", fr:"Vareya", kb:"équilibre cosmique"},
+  {source:"grand", fr:"Vava", kb:"énergie circulaire"},
+  {source:"grand", fr:"Veka", kb:"ville"},
+  {source:"grand", fr:"Vefereya", kb:"équilibre stratégique"},
+  {source:"grand", fr:"Velima", kb:"transformation lente"},
+  {source:"grand", fr:"Venama", kb:"autorité"},
+  {source:"grand", fr:"Venira", kb:"autorité morale"},
+  {source:"grand", fr:"Verena", kb:"cohérence"},
+  {source:"grand", fr:"Ve", kb:"division"},
+  {source:"grand", fr:"Viloma", kb:"stabilité intérieure"},
+  {source:"grand", fr:"Viloreya", kb:"stabilité intérieure sacrée"},
+  {source:"grand", fr:"Vina", kb:"neuf"},
+  {source:"grand", fr:"Vinoreya", kb:"mesure spirituelle"},
+  {source:"grand", fr:"Vira", kb:"liberté / voyager"},
+  {source:"grand", fr:"Vireya", kb:"liberté spirituelle"},
+  {source:"grand", fr:"Vokana", kb:"transformer"},
+  {source:"grand", fr:"Voforeya", kb:"expansion universelle"},
+  {source:"grand", fr:"Volena", kb:"expansion universelle"},
+  {source:"grand", fr:"Voma", kb:"puissance"},
+  {source:"grand", fr:"Voreya", kb:"équilibre universel"},
+  {source:"grand", fr:"Vuvoreya", kb:"profondeur cosmique"},
+  // Y
+  {source:"grand", fr:"Yafira", kb:"transmission culturelle"},
+  {source:"grand", fr:"Yaforeya", kb:"transmission sacrée"},
+  {source:"grand", fr:"Yalora", kb:"horizon spirituel"},
+  {source:"grand", fr:"Yaloreya", kb:"horizon spirituel profond"},
+  {source:"grand", fr:"Yamira", kb:"apprentissage sacré"},
+  {source:"grand", fr:"Yanara", kb:"ciel"},
+  {source:"grand", fr:"Yaneya", kb:"ciel sacré"},
+  {source:"grand", fr:"Yanira", kb:"illumination"},
+  {source:"grand", fr:"Yanoreya", kb:"illumination profonde"},
+  {source:"grand", fr:"Yana", kb:"apprendre"},
+  {source:"grand", fr:"Yeka", kb:"organiser"},
+  {source:"grand", fr:"Yera", kb:"voir"},
+  {source:"grand", fr:"Yira", kb:"honorer"},
+  {source:"grand", fr:"Yefereya", kb:"sagesse universelle"},
+  {source:"grand", fr:"Yiloreya", kb:"constance morale"},
+  {source:"grand", fr:"Yoreya", kb:"constance"},
+  {source:"grand", fr:"Yureya", kb:"sagesse collective"},
+  {source:"grand", fr:"Yuvoreya", kb:"cohésion collective"},
+  {source:"grand", fr:"Yaba", kb:"ils"},
+  // Z
+  {source:"grand", fr:"Zafira", kb:"force mentale"},
+  {source:"grand", fr:"Zaforeya", kb:"force mentale sacrée"},
+  {source:"grand", fr:"Zaga", kb:"survivre"},
+  {source:"grand", fr:"Zagara", kb:"bataille"},
+  {source:"grand", fr:"Zalora", kb:"doctrine"},
+  {source:"grand", fr:"Zaloreya", kb:"doctrine universelle"},
+  {source:"grand", fr:"Zama", kb:"destin"},
+  {source:"grand", fr:"Zamira", kb:"destinée personnelle"},
+  {source:"grand", fr:"Zanira", kb:"expansion future"},
+  {source:"grand", fr:"Zanoreya", kb:"expansion future sacrée"},
+  {source:"grand", fr:"Zarema", kb:"vérité vivante"},
+  {source:"grand", fr:"Zareya", kb:"vérité sacrée"},
+  {source:"grand", fr:"Zava", kb:"plan"},
+  {source:"grand", fr:"Zeka", kb:"fermer"},
+  {source:"grand", fr:"Zefereya", kb:"vérité révélée"},
+  {source:"grand", fr:"Zelira", kb:"intuition profonde"},
+  {source:"grand", fr:"Zeni", kb:"visage"},
+  {source:"grand", fr:"Zenana", kb:"harmoniser"},
+  {source:"grand", fr:"Zenira", kb:"harmonie sociale"},
+  {source:"grand", fr:"Zifara", kb:"amplification sociale"},
+  {source:"grand", fr:"Zira", kb:"tension"},
+  {source:"grand", fr:"Zire", kb:"harmonie"},
+  {source:"grand", fr:"Zireya", kb:"harmonie sacrée"},
+  {source:"grand", fr:"Zoforeya", kb:"stabilité cosmique"},
+  {source:"grand", fr:"Zoga", kb:"fesse"},
+  {source:"grand", fr:"Zogani", kb:"fesses"},
+  {source:"grand", fr:"Zolima", kb:"stabilité naturelle"},
+  {source:"grand", fr:"Zula", kb:"muscle"},
+  {source:"grand", fr:"Zuno", kb:"soleil"},
+  {source:"grand", fr:"Zureya", kb:"profondeur morale"},
+  {source:"grand", fr:"Zuvoreya", kb:"profondeur universelle"},
+];
+
+const all = [...mini, ...grand];
+
+// UI refs
+const q = document.getElementById("q");
+const clearBtn = document.getElementById("clearBtn");
+const results = document.getElementById("results");
+const miniOnlyResults = document.getElementById("miniOnlyResults");
+const grandOnlyResults = document.getElementById("grandOnlyResults");
+const countLabel = document.getElementById("countLabel");
+
+const tMini = document.getElementById("tMini");
+const tGrand = document.getElementById("tGrand");
+
+let includeMini = true;
+let includeGrand = true;
+let alphaFilter = ""; // ex: "A"
+
+// Navigation
+const pills = [...document.querySelectorAll(".pill")];
+const homeView = document.getElementById("homeView");
+const miniView = document.getElementById("miniView");
+const grandView = document.getElementById("grandView");
+
+function setView(view){
+  homeView.classList.toggle("hide", view !== "home");
+  miniView.classList.toggle("hide", view !== "mini");
+  grandView.classList.toggle("hide", view !== "grand");
+
+  pills.forEach(p => p.setAttribute("aria-current", p.dataset.view === view ? "page" : "false"));
+
+  // render view-specific lists using the same filters
+  renderAll();
+}
+pills.forEach(p => p.addEventListener("click", () => setView(p.dataset.view)));
+
+// Alpha buttons
+const alphaHost = document.querySelector(".alpha");
+const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+function buildAlpha(){
+  alphaHost.innerHTML = "";
+  const allBtn = document.createElement("button");
+  allBtn.textContent = "⋯";
+  allBtn.title = "Toutes lettres";
+  allBtn.addEventListener("click", () => { alphaFilter = ""; updateAlphaUI(); renderAll(); });
+  alphaHost.appendChild(allBtn);
+
+  letters.forEach(L => {
+    const b = document.createElement("button");
+    b.textContent = L;
+    b.addEventListener("click", () => { alphaFilter = L; updateAlphaUI(); renderAll(); });
+    alphaHost.appendChild(b);
+  });
+  updateAlphaUI();
+}
+function updateAlphaUI(){
+  const btns = [...alphaHost.querySelectorAll("button")];
+  btns.forEach(b => b.classList.remove("active"));
+  if(!alphaFilter){
+    btns[0].classList.add("active");
+  }else{
+    const idx = letters.indexOf(alphaFilter);
+    if(idx >= 0) btns[idx+1].classList.add("active");
+  }
+}
+
+// Toggles
+function syncToggles(){
+  tMini.classList.toggle("active", includeMini);
+  tGrand.classList.toggle("active", includeGrand);
+  tMini.textContent = includeMini ? "Inclure: Français → Kimbaswa" : "Exclu: Français → Kimbaswa";
+  tGrand.textContent = includeGrand ? "Inclure: Grand Dictionnaire" : "Exclu: Grand Dictionnaire";
+}
+tMini.addEventListener("click", () => { includeMini = !includeMini; syncToggles(); renderAll(); });
+tGrand.addEventListener("click", () => { includeGrand = !includeGrand; syncToggles(); renderAll(); });
+
+// Search
+function norm(s){
+  return (s ?? "")
+    .toString()
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "");
+}
+function startsWithLetter(entry, L){
+  if(!L) return true;
+  const key = (entry.source === "mini" ? entry.fr : entry.fr); // for grand, fr field is the Kimbaswa headword
+  const first = norm(key).slice(0,1).toUpperCase();
+  return first === L;
+}
+function inCorpus(entry){
+  return (includeMini && entry.source === "mini") || (includeGrand && entry.source === "grand");
+}
+function matches(entry, query){
+  if(!query) return true;
+  const n = norm(query);
+  return norm(entry.fr).includes(n) || norm(entry.kb).includes(n);
+}
+
+function entryHTML(e){
+  const badgeText = e.source === "mini" ? "FR→KB" : "IMPÉRIAL";
+  const leftA = e.source === "mini" ? e.fr : e.fr; // headword shown at left
+  const rightB = e.source === "mini" ? e.kb : e.kb; // meaning/gloss for grand
+
+  return `
+    <div class="entry">
+      <div class="left">
+        <span class="badge">${badgeText}</span>
+        <span class="fr" title="${escapeHtml(leftA)}">${escapeHtml(leftA)}</span>
+        <span class="arrow">→</span>
+      </div>
+      <div class="kb" title="${escapeHtml(rightB)}">${escapeHtml(rightB)}</div>
+    </div>
+  `;
+}
+function escapeHtml(str){
+  return (str ?? "").toString()
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function renderList(host, data){
+  if(!data.length){
+    host.innerHTML = `<div class="card" style="grid-column:1/-1;">
+      <h3 style="margin:0 0 6px;">Aucun résultat</h3>
+      <div class="note">Essaie un autre mot, ou enlève le filtre de lettre/corpus.</div>
+    </div>`;
+    return;
+  }
+  host.innerHTML = data.map(entryHTML).join("");
+}
+
+function filteredData(sourceMode){
+  const query = q.value;
+  return all
+    .filter(e => sourceMode ? e.source === sourceMode : true)
+    .filter(inCorpus)
+    .filter(e => startsWithLetter(e, alphaFilter))
+    .filter(e => matches(e, query))
+    .sort((a,b) => norm(a.fr).localeCompare(norm(b.fr), "fr"));
+}
+
+function renderAll(){
+  const dataAll = filteredData(null);
+  const dataMini = filteredData("mini");
+  const dataGrand = filteredData("grand");
+
+  renderList(results, dataAll);
+  renderList(miniOnlyResults, dataMini);
+  renderList(grandOnlyResults, dataGrand);
+
+  const n = dataAll.length;
+  countLabel.textContent = `${n} ${n <= 1 ? "entrée" : "entrées"}`;
+}
+
+// Events
+q.addEventListener("input", renderAll);
+clearBtn.addEventListener("click", () => { q.value=""; q.focus(); renderAll(); });
+
+document.addEventListener("keydown", (ev) => {
+  if(ev.key === "Escape"){
+    q.value = "";
+    alphaFilter = "";
+    includeMini = true;
+    includeGrand = true;
+    syncToggles();
+    updateAlphaUI();
+    renderAll();
+  }
+});
+
+// init
+buildAlpha();
+syncToggles();
+renderAll();
+</script>
+</body>
+</html>
